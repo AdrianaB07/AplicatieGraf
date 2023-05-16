@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aplicație Graf - vis.js</title>
+  <style type="text/css">
+    #mynetwork {
+      width: 600px;
+      height: 400px;
+      border: 1px solid lightgray;
+    }
+  </style>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+  <div id="mynetwork"></div>
+
+  <script type="text/javascript">
+    var nodes = new vis.DataSet([]);
+    var edges = new vis.DataSet([]);
+
+    var container = document.getElementById("mynetwork");
+    var data = {
+      nodes: nodes,
+      edges: edges,
+    };
+    var options = {
+      edges: {
+        arrows: {
+          to: {
+            enabled: true,
+          }
+        },
+        smooth: {
+          enabled: true,
+          type: "continuous",
+          roundness: 0.5
+        }
+      }
+    };
+
+    var network = new vis.Network(container, data, options);
+
+    function addNode() {
+      var key = prompt("Introduceți cheia pentru nod:");
+      var value = prompt("Introduceți valoarea pentru nod:");
+
+      nodes.add({ id: key, label: value });
+    }
+
+    function editNode() {
+      var nodeId = prompt("Introduceți ID-ul nodului pe care doriți să-l editați:");
+      var key = prompt("Introduceți noua cheie pentru nod:");
+      var value = prompt("Introduceți noua valoare pentru nod:");
+
+      var node = nodes.get(nodeId);
+      if (node) {
+        node.label = value;
+        nodes.update(node);
+      }
+    }
+
+    function deleteNode() {
+      var nodeId = prompt("Introduceți ID-ul nodului pe care doriți să-l ștergeți:");
+
+      nodes.remove(nodeId);
+    }
+
+    function addEdge() {
+      var from = prompt("Introduceți ID-ul nodului sursă:");
+      var to = prompt("Introduceți ID-ul nodului destinație:");
+      var key = prompt("Introduceți cheia pentru muchie:");
+      var value = prompt("Introduceți valoarea pentru muchie:");
+
+      edges.add({ from: from, to: to, id: key, label: value });
+    }
+
+    function editEdge() {
+      var edgeId = prompt("Introduceți ID-ul muchiei pe care doriți să o editați:");
+      var key = prompt("Introduceți noua cheie pentru muchie:");
+      var value = prompt("Introduceți noua valoare pentru muchie:");
+
+      var edge = edges.get(edgeId);
+      if (edge) {
+        edge.label = value;
+        edges.update(edge);
+      }
+    }
+
+    function deleteEdge() {
+      var edgeId = prompt("Introduceți ID-ul muchiei pe care doriți să o ștergeți:");
+
+      edges.remove(edgeId);
+    }
+  </script>
+
+  <button onclick="addNode()">Adaugă Nod</button>
+  <button onclick="editNode()">Editează Nod</button>
+  <button onclick="deleteNode()">Șterge Nod</button>
+  <br />
+  <button onclick="addEdge()">Adaugă Muchie</button>
+  <button onclick="editEdge()">Editează Muchie</button>
+  <button onclick="deleteEdge()">Șterge Muchie</button>
+</body>
+</html>
